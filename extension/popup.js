@@ -42,16 +42,6 @@ async function getNextRowNumber(token, spreadsheetId, sheetName) {
   return (data.values?.length ?? 0) + 1;
 }
 
-/** MM/DD/YYYY (same as column C) → Sheets formula TODAY() − that calendar date */
-function daysSinceAppFormula(dateApplied, fallbackRow) {
-  const parts = String(dateApplied ?? "").trim().split("/");
-  const mo = parseInt(parts[0], 10);
-  const da = parseInt(parts[1], 10);
-  const yr = parseInt(parts[2], 10);
-  if (yr && mo && da) return `=TODAY()-DATE(${yr},${mo},${da})`;
-  return `=TODAY()-C${fallbackRow}`;
-}
-
 async function appendRow(token, spreadsheetId, sheetName, job) {
   const nextRow = await getNextRowNumber(token, spreadsheetId, sheetName);
 
@@ -68,7 +58,7 @@ async function appendRow(token, spreadsheetId, sheetName, job) {
     job.contact,
     job.notes,
     job.resume,
-    daysSinceAppFormula(job.dateApplied, nextRow),
+    `=TODAY()-C${nextRow}+1`,   // Days Since App — auto-updates daily
   ];
 
   const range = encodeURIComponent(`${sheetName}!A:K`);
