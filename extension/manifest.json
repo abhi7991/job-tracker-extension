@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Job Application Tracker",
+  "version": "1.0.0",
+  "description": "Log job applications to Google Sheets from any job posting page.",
+
+  "permissions": ["identity", "activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://sheets.googleapis.com/*"
+  ],
+
+  "oauth2": {
+    "client_id": "1097879871487-61lhplhsbr19nb8qpqktl8a95s2qhadn.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Log Job Application"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  }
+}
